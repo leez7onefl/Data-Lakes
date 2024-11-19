@@ -46,22 +46,3 @@ Data needs to be preprocessed to be stage from a bronze to a silver layer. Your 
 python src/preprocess.py --data_file data/bronze/combined_data.csv --output_dir data/silver/
 ```
 
-## 4. Train and Evaluate
-
-The training script is train.py located at the root of the repo. The PyTorch Lightning implementation of each model can be found in *src/models/*. The Protein Dataset Lightning implementation can be found in *src/dataset.py*.
-
-In *src/models/*, *transformers_module.py* is a Lightning wrapper for the Huggingface Transformers library to work with a PyTorch Lightning trainer.
-
-### Available Models:
-* baseline: Linear Classifier
-* esm2: QLoRA fine-tuning of ESM-2-8M in 8-bit. *Targets only query/key/value layers and not dense layers to reduce compute load*.
-* ropeformer: (Not fully implemented yet) My custom implementation of a Transformer with Rotary Position Embeddings
-
-To train a model, go to the hydra config at *config/config.yaml*, and indicate the model you wish to train under model.name. Then, simply run the training script.
-```bash
-python train.py
-```
-
-## 5. Next steps
-
-* Automate project build with Makefile
