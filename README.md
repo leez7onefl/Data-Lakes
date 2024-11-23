@@ -10,36 +10,36 @@ This repository is designed to help students learn about data lakes and data int
 Docker is required to run LocalStack, a tool simulating AWS services locally.
 
 1. Install Docker:
-   ```bash
-   sudo apt update
-   sudo apt install docker.io
-   ```
+```bash
+sudo apt update
+sudo apt install docker.io
+```
 
 2. Verify Docker installation:
-    ```bash
-    docker --version
-    ```
+```bash
+docker --version
+```
 
 3. Install AWS CLI
 AWS CLI is used to interact with LocalStack S3 buckets.
 
-    ```bash
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip
-    sudo ./aws/install
-    ```
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
 
 4. Verify that the installation worked
 
-    ```bash
-    aws --version
-    ```
+```bash
+aws --version
+```
 
 5. Configure AWS CLI for LocalStack
 
-    ```bash
-    aws configure
-    ```
+```bash
+aws configure
+```
 
 Enter the following values:
 * AWS Access Key ID: root
@@ -47,33 +47,33 @@ Enter the following values:
 * Default region name: us-east-1
 * Default output format: json
 
-Create LocalStack S3 buckets:
+6. Create LocalStack S3 buckets:
 
-    ```bash
-    Copier le code
-    aws --endpoint-url=http://localhost:4566 s3 mb s3://raw
-    aws --endpoint-url=http://localhost:4566 s3 mb s3://staging
-    aws --endpoint-url=http://localhost:4566 s3 mb s3://curated
-    ```
+```bash
+Copier le code
+aws --endpoint-url=http://localhost:4566 s3 mb s3://raw
+aws --endpoint-url=http://localhost:4566 s3 mb s3://staging
+aws --endpoint-url=http://localhost:4566 s3 mb s3://curated
+```
 
-6. Install DVC
+7. Install DVC
 DVC is used for data version control and pipeline orchestration.
 
-    ```bash
-    pip install dvc
-    ```
+```bash
+pip install dvc
+```
 
-    ```bash
-    dvc remote add -d localstack-s3 s3://
-    dvc remote modify localstack-s3 endpointurl http://localhost:4566
-    ```
+```bash
+dvc remote add -d localstack-s3 s3://
+dvc remote modify localstack-s3 endpointurl http://localhost:4566
+```
 
 ## 2. Repository Setup
 Install Python Dependencies
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+```bash
+pip install -r requirements.txt
+```
 
 Start LocalStack
 
@@ -83,10 +83,10 @@ bash scripts/start_localstack.sh
 
 Download the Dataset
 
-    ```bash
-    pip install kaggle 
-    kaggle datasets download googleai/pfam-seed-random-split
-    ```
+```bash
+pip install kaggle 
+kaggle datasets download googleai/pfam-seed-random-split
+```
 
 Move the dataset into a data/raw folder.
 
