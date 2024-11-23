@@ -1,7 +1,8 @@
 stages:
   start_localstack:
-    cmd: |
-      docker ps | grep localstack || docker run -d -p 4566:4566 -p 4572:4572 --name localstack localstack/localstack
+    cmd: bash scripts/start_localstack.sh
+    outs:
+      - localstack_running.log  # Track the state of the container to ensure this stage runs only when needed
 
   unpack:
     cmd: python src/unpack_data.py --input_dir ./data/raw --bucket_name raw --output_file_name combined_raw.csv
@@ -9,20 +10,22 @@ stages:
       - src/unpack_data.py
       - data/raw
     outs:
-      - s3://raw/combined_raw.csv  # Remote output for the unpack stage
+      - data/raw/combined_raw.csv
 
   preprocess:
     cmd: python src/preprocess_to_staging.py --bucket_raw raw --bucket_staging staging --input_file combined_raw.csv --output_prefix preprocessed
     deps:
       - src/preprocess_to_staging.py
+      - data/raw/combined_raw.csv
     outs:
-      - s3://staging/preprocessed_train.csv
-      - s3://staging/preprocessed_dev.csv
-      - s3://staging/preprocessed_test.csv
+      - data/staging/preprocessed_train.csv
+      - data/staging/preprocessed_dev.csv
+      - data/staging/preprocessed_test.csv
 
   process:
     cmd: python src/process_to_curated.py --bucket_staging staging --bucket_curated curated --input_file preprocessed_train.csv --output_file tokenized_train.csv
     deps:
       - src/process_to_curated.py
+      - data/staging/preprocessed_train.csv
     outs:
-      - s3://curated/tokenized_train.csv
+      - data/curated/tokenized_train.csv
