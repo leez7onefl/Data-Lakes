@@ -72,7 +72,7 @@ dvc remote modify localstack-s3 endpointurl http://localhost:4566
 Install Python Dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install -r build/requirements.txt
 ```
 
 Start LocalStack
